@@ -4,6 +4,7 @@ import AllUsersView from "@/views/AllUsersView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import RegisterUser from "@/views/RegisterUser.vue";
 import ProductView from "@/views/ProductView.vue";
+import LogInView from "@/views/LogInView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,8 +39,15 @@ const router = createRouter({
     },
     {
       path: "/users/:id",
-      name: "users/:id",
-      component: ProfileView
+      name: "profile",
+      component: ProfileView,
+      props: true
+
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: LogInView
     }
   ],
 })
