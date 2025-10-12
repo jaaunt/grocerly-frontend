@@ -4,7 +4,7 @@ import apiClient from "@/sevices/api.js";
 const users = ref([])
 
 const fetchUser = async() => {
-  const response = await apiClient.get("/users");
+  const response = await apiClient.get("/all-users");
   users.value = response.data;
 }
 
@@ -15,7 +15,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <h1>Users</h1>
+    <h1>All Users</h1>
     <table>
       <thead>
       <tr>
