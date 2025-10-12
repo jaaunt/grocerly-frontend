@@ -1,10 +1,9 @@
 <script setup>
-import { ref } from "vue"
-import apiClient from "@/sevices/api.js"
-import { useRouter } from "vue-router"
+import { ref } from "vue";
+import apiClient from "@/sevices/api.js";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
-
+const router = useRouter();
 const user = ref({
   firstName: "",
   lastName: "",
@@ -12,27 +11,26 @@ const user = ref({
   email: "",
   password: "",
   phone: ""
-})
-
-const message = ref("")
-const error = ref("")
+});
+const message = ref("");
+const error = ref("");
 
 const registerUser = async () => {
   try {
-    const response = await apiClient.post("/register", user.value)
-    message.value = "User registered successfully!"
-    error.value = ""
-    router.push("/users")
+    const response = await apiClient.post("/register", user.value);
+    message.value = "User registered successfully!";
+    error.value = "";
+    const userId = response.data.id; // ← siin ka `id`
+    router.push(`/users/${userId}`);
   } catch (err) {
-    console.error(err)
+    console.error(err);
     if (err.response && err.response.status === 400) {
-      // backi sonum
-      error.value = err.response.data
+      error.value = err.response.data;
     } else {
-      error.value = "Error registering user."
+      error.value = "Error registering user.";
     }
   }
-}
+};
 </script>
 
 <template>
