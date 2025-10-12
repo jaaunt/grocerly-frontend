@@ -26,7 +26,7 @@ const registerUser = async () => {
   } catch (err) {
     console.error(err)
     if (err.response && err.response.status === 400) {
-      // siin näidatakse täpset backist saadud sõnumit
+      // backi sonum
       error.value = err.response.data
     } else {
       error.value = "Error registering user."

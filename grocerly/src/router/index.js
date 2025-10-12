@@ -23,12 +23,12 @@ const router = createRouter({
     {
       path: "/all-users",
       name: "all-users",
-      component: AllUsersView
+      component: AllUsersView // temp
     },
     {
       path: "/register",
       name: "register",
-      component: RegisterUser
+      component: RegisterUser // done
     },
     {
       path: "/users/:id",

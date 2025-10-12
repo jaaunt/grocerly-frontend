@@ -15,7 +15,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <h1>All Users</h1>
+    <h1>All users</h1>
     <table>
       <thead>
       <tr>
