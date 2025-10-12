@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AllUsersView from "@/views/AllUsersView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import RegisterUser from "@/views/RegisterUser.vue";
+import ProductView from "@/views/ProductView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,11 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: RegisterUser // done
+    },
+    {
+      path: "/all-products",
+      name: "all-products",
+      component: ProductView // temp
     },
     {
       path: "/users/:id",
