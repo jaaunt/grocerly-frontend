@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AllUsersView from "@/views/AllUsersView.vue";
 import ProfileView from "@/views/ProfileView.vue";
 import RegisterUser from "@/views/RegisterUser.vue";
+import ProductView from "@/views/ProductView.vue";
 import LogInView from "@/views/LogInView.vue";
 
 const router = createRouter({
@@ -30,6 +31,11 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: RegisterUser // done
+    },
+    {
+      path: "/all-products",
+      name: "all-products",
+      component: ProductView // temp
     },
     {
       path: "/users/:id",
