@@ -1,3 +1,27 @@
+<script setup>
+import { useCartStore } from '@/stores/cart'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+
+const cartStore = useCartStore()
+const authStore = useAuthStore()
+const router = useRouter()
+
+const handleLogin = () => {
+  router.push('/login')
+}
+
+const handleLogout = () => {
+  authStore.logout()
+  router.push('/')
+}
+
+const handleCheckout = async () => {
+  const orderData = await cartStore.submitOrder()
+  console.log('Tellimus:', orderData)
+}
+</script>
+
 <template>
   <header class="header">
     <div class="header-content">
@@ -22,8 +46,11 @@
           <span v-if="cartStore.totalItems > 0" class="cart-badge">{{ cartStore.totalItems }}</span>
         </button>
 
-        <button class="login-btn" @click="handleLogin">
+        <button v-if="!authStore.isLoggedIn" class="login-btn" @click="handleLogin">
           Logi sisse
+        </button>
+        <button v-else class="login-btn" @click="handleLogout">
+          Logi välja
         </button>
       </div>
     </div>
@@ -79,21 +106,6 @@
     </div>
   </aside>
 </template>
-
-<script setup>
-import { useCartStore } from '@/stores/cart'
-
-const cartStore = useCartStore()
-
-const handleLogin = () => {
-  console.log('Logi sisse')
-}
-
-const handleCheckout = async () => {
-  const orderData = await cartStore.submitOrder()
-  console.log('Tellimus:', orderData)
-}
-</script>
 
 <style scoped>
 .header {

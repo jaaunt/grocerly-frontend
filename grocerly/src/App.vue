@@ -12,6 +12,7 @@ import HeaderComponent from './components/HeaderComponent.vue'
 
 <style scoped>
 .main-content {
-  padding-top: 70px;
+  padding-top: 80px;
+  width: 100%;
 }
 </style>

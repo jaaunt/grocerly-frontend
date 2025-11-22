@@ -7,61 +7,98 @@ import { useAuthStore } from '@/stores/auth'
 const router = useRouter();
 const authStore = useAuthStore()
 
-const login = ref({ username: "", password: "" });
+const user = ref({
+  firstName: "",
+  lastName: "",
+  username: "",
+  email: "",
+  password: "",
+  phone: ""
+});
+const message = ref("");
 const error = ref("");
 
-const loginUser = async () => {
+const registerUser = async () => {
   try {
-    const response = await apiClient.post("/login", login.value);
+    const response = await apiClient.post("/register", user.value);
+    message.value = "Konto loodud!";
+    error.value = "";
     const userData = response.data;
     authStore.login(userData)
     router.push(`/users/${userData.id}`);
   } catch (err) {
     console.error(err);
-    error.value = err.response?.data || "Sisselogimine ebaõnnestus";
+    if (err.response && err.response.status === 400) {
+      error.value = err.response.data;
+    } else {
+      error.value = "Registreerimine ebaõnnestus";
+    }
   }
 };
 
-const goToRegister = () => {
-  router.push('/register');
+const goToLogin = () => {
+  router.push('/login');
 };
 </script>
 
 <template>
-  <div class="login-container">
-    <div class="login-card">
-      <h1>Logi sisse</h1>
+  <div class="register-container">
+    <div class="register-card">
+      <h1>Loo uus kasutaja</h1>
 
-      <form @submit.prevent="loginUser">
+      <form @submit.prevent="registerUser">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Eesnimi</label>
+            <input v-model="user.firstName" type="text" placeholder="Eesnimi" required />
+          </div>
+
+          <div class="form-group">
+            <label>Perekonna nimi</label>
+            <input v-model="user.lastName" type="text" placeholder="Perekonna nimi" required />
+          </div>
+        </div>
+
         <div class="form-group">
           <label>Kasutajanimi</label>
-          <input v-model="login.username" type="text" placeholder="Sisesta kasutajanimi" required />
+          <input v-model="user.username" type="text" placeholder="Vali kasutajanimi" required />
+        </div>
+
+        <div class="form-group">
+          <label>E-mail</label>
+          <input v-model="user.email" type="email" placeholder="nimi@email.com" required />
         </div>
 
         <div class="form-group">
           <label>Parool</label>
-          <input v-model="login.password" type="password" placeholder="Sisesta parool" required />
+          <input v-model="user.password" type="password" placeholder="Vali tugev parool" required />
         </div>
 
-        <button type="submit" class="btn-primary">Logi sisse</button>
+        <div class="form-group">
+          <label>Telefon</label>
+          <input v-model="user.phone" type="text" placeholder="+372 5xxx xxxx" required />
+        </div>
+
+        <button type="submit" class="btn-primary">Registreeri</button>
       </form>
 
+      <p v-if="message" class="success">{{ message }}</p>
       <p v-if="error" class="error">{{ error }}</p>
 
       <div class="divider">
         <span>või</span>
       </div>
 
-      <p class="register-link">
-        Pole veel kontot?
-        <a @click="goToRegister">Registreeri siin</a>
+      <p class="login-link">
+        On juba konto?
+        <a @click="goToLogin">Logi sisse</a>
       </p>
     </div>
   </div>
 </template>
 
 <style scoped>
-.login-container {
+.register-container {
   min-height: calc(100vh - 80px);
   display: flex;
   align-items: center;
@@ -69,9 +106,9 @@ const goToRegister = () => {
   padding: 2rem;
 }
 
-.login-card {
+.register-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   background: #fff;
   border-radius: 16px;
   padding: 2.5rem;
@@ -88,6 +125,15 @@ h1 {
 .subtitle {
   margin: 0 0 2rem 0;
   color: #666;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
 }
 
 .form-group {
@@ -139,6 +185,15 @@ input::placeholder {
   background-color: #2563eb;
 }
 
+.success {
+  color: #22c55e;
+  background: #f0fdf4;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
 .error {
   color: #ef4444;
   background: #fef2f2;
@@ -168,20 +223,20 @@ input::placeholder {
   font-size: 0.9rem;
 }
 
-.register-link {
+.login-link {
   text-align: center;
   color: #666;
   margin: 0;
 }
 
-.register-link a {
+.login-link a {
   color: #3b82f6;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
 }
 
-.register-link a:hover {
+.login-link a:hover {
   text-decoration: underline;
 }
 </style>

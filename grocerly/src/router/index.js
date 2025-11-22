@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AllUsersView from "@/views/AllUsersView.vue";
 import ProfileView from "@/views/ProfileView.vue";
-import RegisterUser from "@/views/RegisterUser.vue";
+import RegisterView from "@/views/RegisterView.vue";
 import ProductView from "@/views/ProductView.vue";
 import LogInView from "@/views/LogInView.vue";
 
@@ -30,7 +30,7 @@ const router = createRouter({
     {
       path: "/register",
       name: "register",
-      component: RegisterUser // done
+      component: () => import('../views/RegisterView.vue')
     },
     {
       path: "/all-products",
@@ -47,7 +47,7 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: LogInView
+      component: () => import('../views/LogInView.vue')
     }
   ],
 })
