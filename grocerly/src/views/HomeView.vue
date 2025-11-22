@@ -60,6 +60,35 @@ onMounted(async () => {
 
 </script>
 
+<style scoped>
+/* scoped  tähendab, et need stiilid kehtivad ainult selles komponendis! */
+/* CSS */
+/* Loob ruudustiku, mis kohaneb ekraani suurusega automaatselt!*/
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
+
+/* Ühe toote kaart, annab igale tootele kena kasti ümarate nurkadega!*/
+.product-card {
+  border: 1px solid #ddd; /*  Õhuke hall ääris (1 piksel lai, hall värv #ddd) */
+  border-radius: 12px;  /*  Ümarnurksed (12 pikslit) - teeb kaardi ilusaks */
+  padding: 16px;   /*  Tühimik kaardi sisu ja äärise vahel (16 pikslit) */
+}
+
+/* Teeb punase, ümarnenud nupu, mis näeb välja nagu klikitav element!*/
+.add-to-cart-btn {
+  background-color: #3daed4;
+  color: white; /*  Valge tekst */
+  padding: 12px; /*  Tühimik nupu sisu ümber (12 pikslit) - teeb nupu suuremaks */
+  border: none;  /*  Ei taha vaikimisi äärist */
+  border-radius: 8px; /*  Ümarnenud nurgad (8 pikslit) */
+  cursor: pointer; /* Hiir muutub näpuks, kui nupu peal - näitab, et see on klikitav */
+}
+</style>
+
 <template>
   <main class="page">
     <section class="products-grid">
@@ -98,8 +127,15 @@ onMounted(async () => {
             Laos: {{ product.productQuantity }} tk
           </div>
         </div>
-      </article>
 
+        <!-- ostukorvi nupp -->
+        <button
+            class="add-to-cart-btn"
+            @click="addToCart(product)"
+        >
+          Lisa ostukorvi
+        </button>
+      </article>
     </section>
   </main>
 </template>
