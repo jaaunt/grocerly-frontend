@@ -54,6 +54,19 @@ onMounted(async () => {
   border: 1px solid #ddd; /*  Õhuke hall ääris (1 piksel lai, hall värv #ddd) */
   border-radius: 12px;  /*  Ümarnurksed (12 pikslit) - teeb kaardi ilusaks */
   padding: 16px;   /*  Tühimik kaardi sisu ja äärise vahel (16 pikslit) */
+
+
+  /* UUS OSA!!!Uued read hover efekti jaoks.  -> linkimise jaoks lisatud */
+  text-decoration: none;  /* Eemaldab lingi allakriipsutuse */
+  color: inherit;  /* Säilitab originaal teksti värvi */
+  display: block;  /* Muudab lingi plokk-elemendiks */
+  transition: transform 0.2s;  /* Sujuv animatsioon hoveriks */
+}
+
+/* UUS OSA!!!  linkimise jaoks lisatud */
+.product-card:hover {
+  transform: translateY(-4px);  /* Tõstab kaardi 4px üles */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);  /* Lisa varju */
 }
 
 /* Ostukorvi nupp. Teeb punase, ümarnenud nupu, mis näeb välja nagu klikitav element!*/
@@ -95,12 +108,19 @@ onMounted(async () => {
   <main class="page">
     <section class="products-grid">
 
-      <!-- üks kaart iga toote jaoks -->
-      <article
+      <router-link
           v-for="product in products"
           :key="product.id"
+          :to="{ name: 'productDetail', params: { id: product.id } }"
           class="product-card"
       >
+
+<!--      &lt;!&ndash; üks kaart iga toote jaoks &ndash;&gt;-->
+<!--      <article-->
+<!--          v-for="product in products"  see osa oli ennem, kui ei teinud klikitavaks -->
+<!--          :key="product.id"-->
+<!--          class="product-card"-->
+<!--      >-->
         <!-- pilt -->
         <div class="product-image-wrapper">
           <img
@@ -137,7 +157,8 @@ onMounted(async () => {
         >
           Lisa ostukorvi
         </button>
-      </article>
+      </router-link>
+<!--      </article>-->
     </section>
   </main>
 </template>
