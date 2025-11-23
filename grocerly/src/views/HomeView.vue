@@ -9,7 +9,7 @@ import turkiImg from "@/assets/products/türgi_sokolaad.png";
 
 const cartStore = useCartStore()
 
-const products = ref([]);
+// const products = ref([]);
 
 onMounted(async () => {
   try {
