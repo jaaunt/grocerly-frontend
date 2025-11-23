@@ -9,7 +9,7 @@ import turkiImg from "@/assets/products/türgi_sokolaad.png";
 
 const cartStore = useCartStore()
 
-const products = ref([]);
+// const products = ref([]);
 
 onMounted(async () => {
   try {
@@ -24,8 +24,8 @@ onMounted(async () => {
 const getImageForProduct = (product) => {
   const imageMap = {
     'Bitter šokolaad': bitterImg,
-    'Šokolaadide kombo': komboImg,
-    'Türgi šokolaad': turkiImg
+    'Vanini šokolaadide valik, 5tk': komboImg,
+    'Kunafa pistaatsiakreemiga šokolaad': turkiImg
   };
 
   return imageMap[product.productName] || bitterImg;
@@ -40,6 +40,18 @@ const addToCart = (product) => {
     stock: parseInt(product.productQuantity) || 10
   })
 }
+
+const products = ref([]);
+
+onMounted(async () => {
+   try {
+     const response = await apiClient.get('/all-products');
+     products.value = response.data;
+   } catch (error) {
+     console.error('Toodete laadimine ebaõnnestus:', error);
+   }
+ });
+
 
 </script>
 
@@ -63,6 +75,19 @@ const addToCart = (product) => {
   padding: 16px;   /*  Tühimik kaardi sisu ja äärise vahel (16 pikslit) */
   display: flex;
   flex-direction: column;
+
+
+  /* UUS OSA!!!Uued read hover efekti jaoks.  -> linkimise jaoks lisatud */
+  text-decoration: none;  /* Eemaldab lingi allakriipsutuse */
+  color: inherit;  /* Säilitab originaal teksti värvi */
+  display: block;  /* Muudab lingi plokk-elemendiks */
+  transition: transform 0.2s;  /* Sujuv animatsioon hoveriks */
+}
+
+/* UUS OSA!!!  linkimise jaoks lisatud */
+.product-card:hover {
+  transform: translateY(-4px);  /* Tõstab kaardi 4px üles */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);  /* Lisa varju */
 }
 
 /* Ostukorvi nupp. Teeb punase, ümarnenud nupu, mis näeb välja nagu klikitav element!*/
@@ -105,12 +130,19 @@ const addToCart = (product) => {
   <main class="page">
     <section class="products-grid">
 
-      <!-- üks kaart iga toote jaoks -->
-      <article
+      <router-link
           v-for="product in products"
           :key="product.id"
+          :to="{ name: 'productDetail', params: { id: product.id } }"
           class="product-card"
       >
+
+<!--      &lt;!&ndash; üks kaart iga toote jaoks &ndash;&gt;-->
+<!--      <article-->
+<!--          v-for="product in products"  see osa oli ennem, kui ei teinud klikitavaks -->
+<!--          :key="product.id"-->
+<!--          class="product-card"-->
+<!--      >-->
         <!-- pilt -->
         <div class="product-image-wrapper">
           <img
@@ -147,7 +179,8 @@ const addToCart = (product) => {
         >
           Lisa ostukorvi
         </button>
-      </article>
+      </router-link>
+<!--      </article>-->
     </section>
   </main>
 </template>

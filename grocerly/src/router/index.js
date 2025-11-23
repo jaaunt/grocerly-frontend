@@ -5,6 +5,7 @@ import ProfileView from "@/views/ProfileView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import ProductView from "@/views/ProductView.vue";
 import LogInView from "@/views/LogInView.vue";
+import ProductDetailView from "@/views/ProductDetailView.vue"; // -> Kristini lisatud
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,6 +37,14 @@ const router = createRouter({
       path: "/all-products",
       name: "all-products",
       component: ProductView // temp
+    },
+    {
+      path: "/products/:id",  // ← Kristini lisatud
+      name: "productDetail",
+      component: ProductDetailView,
+      props: true
+    },
+    {
     },
     {
       path: "/users/:id",
