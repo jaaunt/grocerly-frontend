@@ -1,11 +1,15 @@
 <script setup>
+import { ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import CheckoutOverlay from './CheckoutOverlay.vue'
 
 const cartStore = useCartStore()
 const authStore = useAuthStore()
 const router = useRouter()
+
+const showCheckout = ref(false)
 
 const handleLogin = () => {
   router.push('/login')
@@ -16,9 +20,23 @@ const handleLogout = () => {
   router.push('/')
 }
 
-const handleCheckout = async () => {
-  const orderData = await cartStore.submitOrder()
-  console.log('Tellimus:', orderData)
+const goToProfile = () => {
+  router.push(`/users/${authStore.user.id}`)
+}
+
+const handleCheckout = () => {
+  if (!authStore.isLoggedIn) {
+    cartStore.closeCart()
+    router.push('/login')
+    return
+  }
+
+  cartStore.closeCart()
+  showCheckout.value = true
+}
+
+const closeCheckout = () => {
+  showCheckout.value = false
 }
 </script>
 
@@ -46,6 +64,13 @@ const handleCheckout = async () => {
           <span v-if="cartStore.totalItems > 0" class="cart-badge">{{ cartStore.totalItems }}</span>
         </button>
 
+        <button v-if="authStore.isLoggedIn" class="profile-btn" @click="goToProfile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+
         <button v-if="!authStore.isLoggedIn" class="login-btn" @click="handleLogin">
           Logi sisse
         </button>
@@ -56,10 +81,10 @@ const handleCheckout = async () => {
     </div>
   </header>
 
-  <!-- Overlay -->
+  <!-- Cart Overlay -->
   <div v-if="cartStore.isOpen" class="cart-overlay" @click="cartStore.closeCart"></div>
 
-  <!-- Sidebar -->
+  <!-- Cart Sidebar -->
   <aside class="cart-sidebar" :class="{ open: cartStore.isOpen }">
     <div class="cart-header">
       <h2>Ostukorv</h2>
@@ -105,6 +130,9 @@ const handleCheckout = async () => {
       </button>
     </div>
   </aside>
+
+  <!-- Checkout Overlay -->
+  <CheckoutOverlay :show="showCheckout" @close="closeCheckout" />
 </template>
 
 <style scoped>
@@ -135,7 +163,8 @@ const handleCheckout = async () => {
 
 .nav-links {
   display: flex;
-  gap: 2.5rem;
+  align-items: center;
+  gap: 3.5rem;
 }
 
 .nav-links a {
@@ -189,6 +218,24 @@ const handleCheckout = async () => {
   text-align: center;
 }
 
+.profile-btn {
+  background: none;
+  border: none;
+  color: #d1e3f5;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.profile-btn svg {
+  width: 28px;
+  height: 28px;
+}
+
+.profile-btn:hover {
+  color: #5db8f5;
+}
+
 .login-btn {
   background-color: #3b82f6;
   color: #ffffff;
@@ -205,7 +252,7 @@ const handleCheckout = async () => {
   background-color: #5db8f5;
 }
 
-/* Overlay */
+/* Cart Overlay */
 .cart-overlay {
   position: fixed;
   top: 80px;
@@ -216,13 +263,13 @@ const handleCheckout = async () => {
   z-index: 998;
 }
 
-/* Sidebar */
+/* Cart Sidebar */
 .cart-sidebar {
   position: fixed;
   top: 80px;
   right: 0;
   bottom: 0;
-  width: 400px;
+  width: 480px;
   max-width: 100%;
   background: linear-gradient(to right, #b8d4ed 0%, #ffffff 12%, #ffffff 100%);
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
