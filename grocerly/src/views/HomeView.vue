@@ -1,12 +1,24 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-import {ref, onMounted} from "vue";
+import { ref, onMounted } from "vue";
 import apiClient from "@/sevices/api.js";
+import { useCartStore } from '@/stores/cart'
 
 import bitterImg from "@/assets/products/bitter_sokolaad.jpg";
 import komboImg from "@/assets/products/sokolaadide_kombo.png";
 import turkiImg from "@/assets/products/türgi_sokolaad.png";
 
+const cartStore = useCartStore()
+
+const products = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await apiClient.get('/all-products');
+    products.value = response.data;
+  } catch (error) {
+    console.error('Toodete laadimine ebaõnnestus:', error);
+  }
+});
 
 // Funktsioon pildi valikuks
 const getImageForProduct = (product) => {
@@ -19,6 +31,15 @@ const getImageForProduct = (product) => {
   return imageMap[product.productName] || bitterImg;
 };
 
+const addToCart = (product) => {
+  cartStore.addItem({
+    id: product.id,
+    name: product.productName,
+    price: parseFloat(product.price) || 0,
+    image: getImageForProduct(product),
+    stock: parseInt(product.productQuantity) || 10
+  })
+}
 
 const products = ref([]);
 
@@ -40,13 +61,11 @@ onMounted(async () => {
 /* Loob ruudustiku, mis kohaneb ekraani suurusega automaatselt!*/
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Loob automaatselt nii palju veerge kui mahub ekraanile.
-   - repeat(auto-fit, ...)  mahuta automaatselt nii palju kaarte kui võimalik
-   - minmax(220px, 1fr)  iga kaart on vähemalt 220px lai, aga võib kasvada võrdselt
-   - Tulemus: suurel ekraanil 3-4 kaarti kõrvuti, väikesel 1-2 kaarti
-   - Kui ekraan alla 660px (3×220px), lähevad kaardid automaatselt alla */
+  grid-template-columns: repeat(auto-fill, 280px); /* fixed width et see suurus ei */
+  /* muutuks iga rida, auto fill pane nii palju kui saab reale ss alla */
   gap: 24px;
   padding: 24px;
+  justify-content: start;
 }
 
 /* Ühe toote kaart, annab igale tootele kena kasti ümarate nurkadega!*/
@@ -54,6 +73,8 @@ onMounted(async () => {
   border: 1px solid #ddd; /*  Õhuke hall ääris (1 piksel lai, hall värv #ddd) */
   border-radius: 12px;  /*  Ümarnurksed (12 pikslit) - teeb kaardi ilusaks */
   padding: 16px;   /*  Tühimik kaardi sisu ja äärise vahel (16 pikslit) */
+  display: flex;
+  flex-direction: column;
 
 
   /* UUS OSA!!!Uued read hover efekti jaoks.  -> linkimise jaoks lisatud */
@@ -77,6 +98,7 @@ onMounted(async () => {
   border: none;  /*  Ei taha vaikimisi äärist */
   border-radius: 8px; /*  Ümarnenud nurgad (8 pikslit) */
   cursor: pointer; /* Hiir muutub näpuks, kui nupu peal - näitab, et see on klikitav */
+  margin-top: auto;
 }
 
 /* Pildi konteiner, mis määrab maksimaalsed mõõtmed */
@@ -162,3 +184,36 @@ onMounted(async () => {
     </section>
   </main>
 </template>
+
+@media (max-width: 768px) {
+.products-grid {
+grid-template-columns: repeat(auto-fill, 220px);
+gap: 16px;
+padding: 16px;
+}
+
+.product-image-wrapper {
+height: 180px;
+}
+}
+
+@media (max-width: 480px) {
+.products-grid {
+grid-template-columns: 1fr;
+gap: 12px;
+padding: 12px;
+}
+
+.product-card {
+padding: 12px;
+}
+
+.product-image-wrapper {
+height: 150px;
+}
+
+.add-to-cart-btn {
+padding: 10px;
+font-size: 0.9rem;
+}
+}
