@@ -7,45 +7,19 @@ import bitterImg from "@/assets/products/bitter_sokolaad.jpg";
 import komboImg from "@/assets/products/sokolaadide_kombo.png";
 import turkiImg from "@/assets/products/türgi_sokolaad.png";
 
-// // Testimiseks - eemalda kui backend on valmis
-// const products = ref([
-//   {
-//     id: 1,
-//     productName: 'Bitter šokolaad',
-//     productDesciption: 'Kvaliteetne tume šokolaad',
-//     price: 4.99,
-//     productQuantity: 15
-//   },
-//   {
-//     id: 2,
-//     productName: 'Šokolaadide kombo',
-//     productDesciption: 'Segapakk erinevaid šokolaade',
-//     price: 12.99,
-//     productQuantity: 8
-//   },
-//   {
-//     id: 3,
-//     productName: 'Türgi šokolaad',
-//     productDesciption: 'Eksootiline maitse',
-//     price: 6.50,
-//     productQuantity: 20
-//   }
-// ]);
 
 // Funktsioon pildi valikuks
 const getImageForProduct = (product) => {
   const imageMap = {
     'Bitter šokolaad': bitterImg,
-    'Šokolaadide kombo': komboImg,
-    'Türgi šokolaad': turkiImg
+    'Vanini šokolaadide valik, 5tk': komboImg,
+    'Kunafa pistaatsiakreemiga šokolaad': turkiImg
   };
 
   return imageMap[product.productName] || bitterImg;
 };
 
 
-// // Kui backend on valmis, asenda ülaltoodud testimisandmed sellega:
-// /*
 const products = ref([]);
 
 onMounted(async () => {
@@ -56,7 +30,7 @@ onMounted(async () => {
      console.error('Toodete laadimine ebaõnnestus:', error);
    }
  });
-// */
+
 
 </script>
 
