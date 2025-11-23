@@ -58,16 +58,16 @@ const submitOrder = async () => {
   try {
     const orderData = {
       userId: authStore.user.id,
-      items: cartStore.items.map(item => ({
-        productId: item.id,
-        quantity: item.quantity,
-        price: item.price
-      })),
-      totalPrice: cartStore.totalPrice,
-      shippingDetails: orderDetails.value
+      name: `${orderDetails.value.firstName} ${orderDetails.value.lastName}`,
+      email: orderDetails.value.email,
+      phone: orderDetails.value.phone,
+      address: `${orderDetails.value.address}, ${orderDetails.value.city}, ${orderDetails.value.postalCode}`,
+      orderItems: cartStore.items.map(item => `${item.name} x ${item.quantity}`).join(', '),
+      totalPrice: cartStore.totalPrice
     }
 
-    console.log('Tellimus:', orderData)
+    await apiClient.post('/orders', orderData)
+
     cartStore.clearCart()
     emit('close')
     alert('Tellimus esitatud!')
@@ -76,6 +76,7 @@ const submitOrder = async () => {
     error.value = "Tellimuse esitamine ebaõnnestus"
   }
 }
+
 </script>
 
 <template>
