@@ -10,7 +10,7 @@ build:
     - npm run build
   artifacts:
     paths:
-      - grocerly/dist/
+      - dist/
   only:
     - main
 
