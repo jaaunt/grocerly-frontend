@@ -1,3 +1,13 @@
+// Mock localStorage for build environment
+if (typeof localStorage === 'undefined') {
+  global.localStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+    clear: () => {}
+  };
+}
+
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
