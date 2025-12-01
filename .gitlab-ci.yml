@@ -25,6 +25,6 @@ deploy:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - rsync -e "ssh -o StrictHostKeyChecking=no" -avz --delete --chmod=D755,F644 dist/ ubuntu@$193.40.157.76:/var/www/html/
+    - rsync -e "ssh -o StrictHostKeyChecking=no" -avz --delete --chmod=D755,F644 grocerly/dist/ ubuntu@$193.40.157.76:/var/www/html/
   only:
     - main
