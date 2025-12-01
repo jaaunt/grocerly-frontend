@@ -1,13 +1,3 @@
-// Mock localStorage for build environment
-if (typeof localStorage === 'undefined') {
-  global.localStorage = {
-    getItem: () => null,
-    setItem: () => {},
-    removeItem: () => {},
-    clear: () => {}
-  };
-}
-
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -18,8 +8,9 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
-  ],
+    // Only enable devtools in development, not in CI
+    process.env.CI ? undefined : vueDevTools(),
+  ].filter(Boolean), // Remove undefined values
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
