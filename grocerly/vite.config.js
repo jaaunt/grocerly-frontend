@@ -8,7 +8,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 export default defineConfig({
   plugins: [
     vue(),
-    // Only enable devtools in development, not in CI
+    // only enable devtools in development, not in CI
     process.env.CI ? undefined : vueDevTools(),
   ].filter(Boolean), // Remove undefined values
   resolve: {
