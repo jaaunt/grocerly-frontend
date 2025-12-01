@@ -6,11 +6,12 @@ build:
   stage: build
   image: node:latest
   script:
+    - cd grocerly
     - npm ci
     - npm run build
   artifacts:
     paths:
-      - dist/
+      - grocerly/dist/
   only:
     - main
 
