@@ -1,27 +1,71 @@
 # ITI0302-2025-backend
 
-## Kuidas runnida
+# Projekti kirjeldus / eesmark
 
-Koigepealt runni back siis front nagu ikka.
+Tegemist on klassikalise toidu tellimus teenusega. Leht voimaldab klientidel valida tooteid ja lisada neid oma ostukorvi et siis neid koju tellida. Tegemist pole valmis soogi tellimis lehega vaid poest toodete tellimisega.(nagu barbora)
+
+# Kuidas runnida - *server*
+selle jaoks on eeldus et sul on serveriga tootav ssh voti voi keegi paneb sinu eest serveri runnima
+
+### Serveri kaivitamine
+
+Runni windows powershellis voi mingis muus terminalis kasku ssh -i ubuntu@193.40.157.76.
+
+Kui see kohe ei toota voib vaja minna et viitaksid oma ssh votmele ssh -i ~/.ssh/"sinu_ssh_votme_nimi" ubuntu@193.40.157.76.
+
+Kui sa ei saa oma ssh votmega nii ligipaasu siis arvatavasti pole su ssh votit serverisse pannud. Vota uhendust kellegiga kes saaks sinu votit kas sinna lisada voi sinu eest seda runnida.
+
+Kui so oled too lopetanud siis serverist saab valja kasuga exit.
+
+### Kuidas backendi serveris runnida
+
+Runni nuud serveri sees kasku java -jar ~/backend/grocerly-0.0.1-SNAPSHOT.jar
+
+See runnib backendi jar faili. Oota kuni see lopetab enne kui jatkad. Ara akent ega protsessi lopeta enne kui oled veebilehega too lopetanud.
+
+Backendi processi saab lopetada vajutades ctrl + c
+
+### Mine lingile
+
+Pane oma lemmik browseri search bari http://193.40.157.76
+
+Voi vajuta ulal olevale lingile
+
+### Additional notes
+
+Hetkel on products anmebaas tuhi (meil tekkis probleem localist andemte andmebaasi lisamisega) seega avaleht on hetkeseisuga tuhi kahjuks. Sellega tegeletakse. Userite tegemine ja login on korras.
+
+
+# Kuidas runnida - *local*
+
+Koigepealt runni back siis front nagu ikka. Alusta kloonimisest.
 
 - backend: https://gitlab.cs.taltech.ee/jaaunt/iti0302-2025-backend
 - frontend: https://gitlab.cs.taltech.ee/jaaunt/iti0302-2025-frontend
 
+### 0. Klooni molemad repod
+
+Kui see pakub sulle backendi juures load gradle script parast kloonimist tee seda
 
 ## Backend osa:
 
 ### 1. Runni dokkerit
 
-docker-compose up -d. Kui at any point edaspidi pakub connect database all paremmal aares **KINDLASTI VAJUTA SEDA.**
+Tee lahti oma arvutis dokker desktop
+
+Tee oma IDE TERMINALIS docker-compose up -d
+
+Andmebaasiga uhendamiseks kui sa varem pole on vaja votta paremalt datavase vaatest(kolme kihiline silindri nupp) pluss. Vali sealt alt postgrSQL seal on sul vaja userit ja passwordi need leiad sa docker-compose.yml failist.
+
+Dockeri saab kinni panna kasuga IDE TERMINALIS docker compose down
 
 ### 2. Buildimine
 
-Projekti avamisel peab esmalt gradel buildima. Selle leiad gradle menust Grocerly -> Tasks -> build -> build. 
+Nuud peaks projekti gradleis igaksjuhuks ule buildima. Gradel nupp aseub paremal(elevant). Siis gradle menust grocerly -> Tasks -> build -> build.
 
 ### 3.Runni applicationit
 
-Runni grocerly applicationi selle leiad siit alt -> iti0302-2025-backend -> grocerly -> src -> main -> java -> com.stitch.grocerly -> GrocerlyApplication.java seest.
-Kui see ei ole runnable openi grocerly moodul teises aknas ja runnis seal seda. grocerly -> src -> main -> java -> com.stitch.grocerly -> GrocerlyApplication.java seest.
+Runni grocerly applicationi selle leiad siit alt -> iti0302-2025-backend -> grocerly -> src -> main -> java -> com.stitch.grocerly -> GrocerlyApplication.java runni kas seda faili voi funktsiooni selle faili sees.
 
 ## Frontend osa:
 
@@ -37,17 +81,13 @@ Kui see ei ole runnable openi grocerly moodul teises aknas ja runnis seal seda. 
 
 - Pane terminali nuud: npm install axios
 
- OOTA KUNI SEE LOPETAB KIIRET POLE KUHUGI, SEDA ON VAJA
+- Pane terminali nuud: npm install pinia
 
 - Pane terminali nuud: npm install
-
- OOTA KUNI SEE LOPETAB KIIRET POLE KUHUGI, SEDA ON VAJA
 
 ### 3. Runni
 
 - Pane terminali nuud: npm run dev
-
- OOTA KUNI SEE LOPETAB KIIRET POLE KUHUGI, SEDA ON VAJA
 
 ### 4. Browser
 
@@ -55,7 +95,26 @@ Kui see ei ole runnable openi grocerly moodul teises aknas ja runnis seal seda. 
 
 Eks nad koik vast tootavad.
 
+### 5. Additional notes
 
-# Additional notes
+Arvatavasti markad et esilehel pole uhtegi toodet hetkel see on selleparast et localis tehes pole andmebaasis sisu.
 
-Andmebaas on algul tuhi mistottu on all users ja product view tuhjad. Producte peab lisama intellij backendist andmebaasi ise juurde lisama. Usereid saad juurde lisada registreerimis viewst. See lisab userid ise andmebaasi.
+Seega on all users, orders, brands ja product tabelid tuhjad. Producte ja brande peab lisama intellij backendist andmebaasi ise juurde lisama. Usereid saad juurde lisada registreerimis viewst. See lisab userid ise andmebaasi. Ordereid saab samamoodi ise teha ostukorvi vaatest.
+
+# Kui sa tahad omale buildida selle backendi jar faili
+
+Seda saab teha gradle aknast grocerly -> tasks -> build -> bootJar
+
+# Tehnoloogiad
+
+- Spring boot
+- Vue
+- PostgreSQL
+
+# Prerequisites
+
+- Java 21
+- Node.js 18+ and npm
+- PostgreSQL 16
+- Docker Desktop (optional, for containerized setup)
+- Git
