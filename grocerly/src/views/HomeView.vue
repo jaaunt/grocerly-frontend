@@ -3,9 +3,9 @@ import { ref, onMounted } from "vue";
 import apiClient from "@/sevices/api.js";
 import { useCartStore } from '@/stores/cart'
 
-import bitterImg from "@/assets/products/bitter_sokolaad.jpg";
-import komboImg from "@/assets/products/sokolaadide_kombo.png";
-import turkiImg from "@/assets/products/türgi_sokolaad.png";
+import bitterImg from "../../public/photo/bitter_sokolaad.jpg";
+import komboImg from "../../public/photo/sokolaadide_kombo.png";
+import turkiImg from "../../public/photo/türgi_sokolaad.png";
 
 const cartStore = useCartStore()
 
@@ -20,15 +20,13 @@ onMounted(async () => {
   }
 });
 
+
 // Funktsioon pildi valikuks
 const getImageForProduct = (product) => {
-  const imageMap = {
-    'Bitter šokolaad': bitterImg,
-    'Vanini šokolaadide valik, 5tk': komboImg,
-    'Kunafa pistaatsiakreemiga šokolaad': turkiImg
-  };
-
-  return imageMap[product.productName] || bitterImg;
+  if (product.picture) {
+    return `/photo/${product.picture}`;
+  }
+  return '/photo/default.jpg';
 };
 
 const addToCart = (product) => {
