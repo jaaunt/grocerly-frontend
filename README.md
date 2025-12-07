@@ -7,35 +7,11 @@ Tegemist on klassikalise toidu tellimus teenusega. Leht voimaldab klientidel val
 Leht on loodud aine ITI0302 raames aastal 2025 Taltechis. Tegemist pole paris tellimis lehega, turvalisuse huvides palume paris isikuandmeid lehele mitte sisestada.
 
 # 2. Kuidas runnida - *server*
-selle jaoks on eeldus et sul on serveriga tootav ssh voti voi keegi paneb sinu eest serveri runnima
 
-### 2.1 Serveri kaivitamine
 
-- Runni windows powershellis voi mingis muus terminalis kasku ssh -i ubuntu@193.40.157.76.
+- Ava link http://193.40.157.76 . Peaksid nägema nüüd, et andmed jõudsid kohale
 
-- Kui see kohe ei toota voib vaja minna et viitaksid oma ssh votmele ssh -i ~/.ssh/"sinu_ssh_votme_nimi" ubuntu@193.40.157.76.
-
-Kui sa ei saa oma ssh votmega nii ligipaasu siis arvatavasti pole su ssh votit serverisse pannud. Vota uhendust kellegiga kes saaks sinu votit kas sinna lisada voi sinu eest seda runnida.
-
-Kui so oled too lopetanud siis serverist saab valja kasuga exit.
-
-### 2.2 Kuidas backendi serveris runnida
-
-- Runni nuud serveri sees kasku java -jar ~/backend/grocerly-0.0.1-SNAPSHOT.jar
-
-See runnib backendi jar faili. Oota kuni see lopetab enne kui jatkad. Ara akent ega protsessi lopeta enne kui oled veebilehega too lopetanud.
-
-Backendi processi saab lopetada vajutades ctrl + c
-
-### 2.3 Mine lingile
-
-- Pane oma lemmik browseri search bari http://193.40.157.76
-
-Voi vajuta ulal olevale lingile
-
-### 2.4 Additional notes
-
-Hetkel on products anmebaas tuhi (meil tekkis probleem localist andemte andmebaasi lisamisega) seega avaleht on hetkeseisuga tuhi kahjuks. Sellega tegeletakse. Userite tegemine ja login on korras.
+Nüüd teoorias, sa peaksid saama ühendust andmebaasiga läbi IntelliJi
 
 
 # 3. Kuidas runnida - *local*
