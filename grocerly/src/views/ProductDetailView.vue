@@ -1,16 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import apiClient from '@/sevices/api.js';
-
-// pildid ei ole enam siin impordi teel, igaks juhuks jätsin kui peaks mingi viga error tulema
-// import bitterImg from "@/assets/products/bitter_sokolaad.jpg";
-// import komboImg from "@/assets/products/sokolaadide_kombo.png";
-// import turkiImg from "@/assets/products/türgi_sokolaad.png";
-
-import bitterImg from "../../public/photo/bitter_sokolaad.jpg";
-import komboImg from "../../public/photo/sokolaadide_kombo.png";
-import turkiImg from "../../public/photo/türgi_sokolaad.png";
+import apiClient from '@/services/api.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -18,27 +9,18 @@ const product = ref(null);
 const brand = ref(null);
 const loading = ref(true);
 
+const productImage = computed(() => {
+  if (!product.value?.picture) return '/photo/bitter_sokolaad.jpg';
+  return `/photo/${product.value.picture}`;
+});
 
-// Pildi valimine
-const getImageForProduct = (productName) => {
-  const imageMap = {
-    'Bitter šokolaad': bitterImg,
-    'Vanini šokolaadide valik, 5tk': komboImg,
-    'Kunafa pistaatsiakreemiga šokolaad': turkiImg
-  };
-  return imageMap[productName] || bitterImg;
-};
-
-// Toote ja brandi laadimine
 onMounted(async () => {
   try {
     const productId = route.params.id;
 
-    // Lae toode
     const productResponse = await apiClient.get(`/products/${productId}`);
     product.value = productResponse.data;
 
-    // Lae brand
     if (product.value.brandId) {
       const brandResponse = await apiClient.get(`/brands/${product.value.brandId}`);
       brand.value = brandResponse.data;
@@ -63,16 +45,14 @@ const goBack = () => {
     <div v-if="loading" class="loading">Laadimine...</div>
 
     <div v-else-if="product" class="product-detail">
-      <!-- Pilt -->
       <div class="product-image-section">
         <img
-            :src="getImageForProduct(product.productName)"
+            :src="productImage"
             :alt="product.productName"
             class="detail-image"
         />
       </div>
 
-      <!-- Info -->
       <div class="product-info-section">
         <h1 class="product-title">{{ product.productName }}</h1>
 
@@ -135,7 +115,6 @@ const goBack = () => {
   gap: 48px;
 }
 
-/* Pilt */
 .product-image-section {
   display: flex;
   align-items: center;
@@ -151,7 +130,6 @@ const goBack = () => {
   object-fit: contain;
 }
 
-/* Info */
 .product-info-section {
   display: flex;
   flex-direction: column;
@@ -228,7 +206,6 @@ const goBack = () => {
   background-color: #2d8eb4;
 }
 
-/* Mobile responsive */
 @media (max-width: 768px) {
   .product-detail {
     grid-template-columns: 1fr;
