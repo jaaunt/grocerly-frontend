@@ -3,15 +3,21 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import apiClient from '@/sevices/api.js';
 
-import bitterImg from "@/assets/products/bitter_sokolaad.jpg";
-import komboImg from "@/assets/products/sokolaadide_kombo.png";
-import turkiImg from "@/assets/products/türgi_sokolaad.png";
+// pildid ei ole enam siin impordi teel, igaks juhuks jätsin kui peaks mingi viga error tulema
+// import bitterImg from "@/assets/products/bitter_sokolaad.jpg";
+// import komboImg from "@/assets/products/sokolaadide_kombo.png";
+// import turkiImg from "@/assets/products/türgi_sokolaad.png";
+
+import bitterImg from "../../public/photo/bitter_sokolaad.jpg";
+import komboImg from "../../public/photo/sokolaadide_kombo.png";
+import turkiImg from "../../public/photo/türgi_sokolaad.png";
 
 const route = useRoute();
 const router = useRouter();
 const product = ref(null);
 const brand = ref(null);
 const loading = ref(true);
+
 
 // Pildi valimine
 const getImageForProduct = (productName) => {
