@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import apiClient from '@/services/api.js';
+import apiClient from '@/sevices/api.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -83,6 +83,7 @@ const goBack = () => {
 </template>
 
 <style scoped>
+/* (sinu CSS jääb täpselt samaks) */
 .product-detail-page {
   max-width: 1200px;
   margin: 0 auto;

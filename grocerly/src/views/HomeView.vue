@@ -5,7 +5,7 @@ import { useCartStore } from '@/stores/cart'
 
 import bitterImg from "../../public/photo/bitter_sokolaad.jpg";
 import komboImg from "../../public/photo/sokolaadide_kombo.png";
-import turkiImg from "../../public/photo/türgi_sokolaad.png";
+import turkiImg from "../../public/photo/turki_sokolaad.png";
 
 const cartStore = useCartStore()
 
