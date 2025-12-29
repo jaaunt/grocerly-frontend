@@ -2,6 +2,7 @@
 import { ref, onMounted, watch } from "vue"
 import apiClient from "@/sevices/api.js"
 import { useRoute } from "vue-router"
+import MyOrders from "@/components/MyOrders.vue"
 
 const route = useRoute()
 const user = ref(null)
@@ -83,6 +84,8 @@ onMounted(() => {
       </div>
 
       <button @click="openEditModal" class="edit-btn">Muuda andmeid</button>
+
+      <MyOrders />
     </div>
 
   <div v-else>

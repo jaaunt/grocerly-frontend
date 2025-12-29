@@ -3,7 +3,13 @@ import { ref, computed, onMounted } from "vue";
 import apiClient from "@/sevices/api.js";
 import { useCartStore } from '@/stores/cart'
 
+import bitterImg from "../../public/photo/bitter_sokolaad.jpg";
+import komboImg from "../../public/photo/sokolaadide_kombo.png";
+import turkiImg from "../../public/photo/türgi_sokolaad.png";
+
 const cartStore = useCartStore()
+
+// const products = ref([]);
 
 onMounted(async () => {
   try {
@@ -165,16 +171,14 @@ onMounted(() => {
       Laeb...
     </div>
 
-    <!-- products grid -->
+    <!-- PRODUCTS GRID -->
     <section v-else-if="filteredProducts.length > 0" class="products-grid">
 
-      <router-link
+      <article
           v-for="product in filteredProducts"
           :key="product.id"
-          :to="{ name: 'productDetail', params: { id: product.id } }"
           class="product-card"
       >
-
         <!-- pilt -->
         <div class="product-image-wrapper">
           <img
@@ -204,19 +208,30 @@ onMounted(() => {
           </div>
         </div>
 
-        <!-- ostukorvi nupp -->
-        <button
-            class="add-to-cart-btn"
-            @click.prevent="addToCart(product)"
-        >
-          Lisa ostukorvi
-        </button>
-      </router-link>
+        <!-- Nupud -->
+        <div class="card-actions">
+          <!-- Lisa ostukorvi -->
+          <button
+              class="add-to-cart-btn"
+              @click="addToCart(product)"
+          >
+            Lisa ostukorvi
+          </button>
+
+          <!-- Vaata detaile -->
+          <router-link
+              :to="{ name: 'productDetail', params: { id: product.id } }"
+              class="details-link"
+          >
+            Vaata detaile
+          </router-link>
+        </div>
+      </article>
     </section>
 
     <!-- no results message -->
     <div v-else class="no-results">
-      <p>Tooteid ei leitud "{{ searchQuery }}" järgi</p>
+      <p>Tooteid ei leitud</p>
     </div>
 
   </main>
@@ -360,14 +375,13 @@ onMounted(() => {
   flex-direction: column;
 
 
-  /* read hover efekti jaoks.  -> linkimise jaoks lisatud */
-  text-decoration: none;  /* Eemaldab lingi allakriipsutuse */
+  /* Uued read hover efekti jaoks.  -> linkimise jaoks lisatud */
   color: inherit;  /* Säilitab originaal teksti värvi */
   display: block;  /* Muudab lingi plokk-elemendiks */
   transition: transform 0.2s;  /* Sujuv animatsioon hoveriks */
 }
 
-/* linkimise jaoks lisatud */
+/*  linkimise jaoks lisatud */
 .product-card:hover {
   transform: translateY(-4px);  /* Tõstab kaardi 4px üles */
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);  /* Lisa varju */
@@ -403,8 +417,76 @@ onMounted(() => {
 .product-image {
   max-width: 100%;   /*  Pilt ei saa olla laiem kui kontainer (max 100% kontaineri laiusest) */
   max-height: 100%;   /*  Pilt ei saa olla kõrgem kui kontainer (max 250px) */
-
   object-fit: contain; /* Pilti ei venitata, et mahuks tervikuna kontaineri sisse, säilitades originaal proportsioonid  */
 }
 
+/* Nuppude konteiner, paigutab nupud vertikaalselt */
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* UUS! Vaata detaile link */
+.details-link {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: transparent;
+  color: #3daed4;
+  border: 2px solid #3daed4;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.details-link:hover {
+  background: #3daed4;
+  color: white;
+}
+
+
+/* Responsive nuppudele */
+.add-to-cart-btn,
+.details-link {
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, 220px);
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .product-image-wrapper {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .product-card {
+    padding: 12px;
+  }
+
+  .product-image-wrapper {
+    height: 150px;
+  }
+
+  .add-to-cart-btn {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+}
 </style>
