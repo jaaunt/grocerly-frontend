@@ -2,17 +2,43 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import apiClient from '@/sevices/api.js';
+import { useCartStore } from '@/stores/cart';
 
 const route = useRoute();
 const router = useRouter();
 const product = ref(null);
 const brand = ref(null);
 const loading = ref(true);
+const cartStore = useCartStore();
 
 const productImage = computed(() => {
   if (!product.value?.picture) return '/photo/bitter_sokolaad.jpg';
   return `/photo/${product.value.picture}`;
 });
+
+
+// Funktsioon pildi valikuks
+const getImageForProduct = (product) => {
+  if (product.picture) {
+    return `/photo/${product.picture}`;
+  }
+  return '/photo/default.jpg';
+};
+
+// Lisa toode ostukorvi
+const addToCart = (product) => {
+  // Kui toodet ei ole, lõpeta
+  if (!product) return;
+  cartStore.addItem({
+    id: product.id,
+    name: product.productName,
+    // Teisenda hind (stringi kujul numbriks)
+    price: parseFloat(product.price) || 0,
+    image: getImageForProduct(product),
+    // Teisenda täisarvuks
+    stock: parseInt(product.productQuantity) || 10
+  })
+}
 
 onMounted(async () => {
   try {
@@ -74,7 +100,7 @@ const goBack = () => {
           <span class="stock-amount">{{ product.productQuantity }} tk</span>
         </div>
 
-        <button class="add-to-cart-btn-detail">Lisa ostukorvi</button>
+        <button @click="addToCart(product)" class="add-to-cart-btn-detail">Lisa ostukorvi</button>
       </div>
     </div>
 
