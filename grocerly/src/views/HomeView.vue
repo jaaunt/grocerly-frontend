@@ -76,7 +76,6 @@ onMounted(async () => {
 
 
   /* UUS OSA!!!Uued read hover efekti jaoks.  -> linkimise jaoks lisatud */
-  text-decoration: none;  /* Eemaldab lingi allakriipsutuse */
   color: inherit;  /* Säilitab originaal teksti värvi */
   display: block;  /* Muudab lingi plokk-elemendiks */
   transition: transform 0.2s;  /* Sujuv animatsioon hoveriks */
@@ -118,20 +117,87 @@ onMounted(async () => {
 .product-image {
   max-width: 100%;   /*  Pilt ei saa olla laiem kui kontainer (max 100% kontaineri laiusest) */
   max-height: 100%;   /*  Pilt ei saa olla kõrgem kui kontainer (max 250px) */
-
   object-fit: contain; /* Pilti ei venitata, et mahuks tervikuna kontaineri sisse, säilitades originaal proportsioonid  */
 }
 
+/* Nuppude konteiner, paigutab nupud vertikaalselt */
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* UUS! Vaata detaile link */
+.details-link {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: transparent;
+  color: #3daed4;
+  border: 2px solid #3daed4;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.details-link:hover {
+  background: #3daed4;
+  color: white;
+}
+/* UUS LÕPP */
+
+/* UUS! Responsive nuppudele */
+.add-to-cart-btn,
+.details-link {
+  padding: 10px;
+  font-size: 0.9rem;
+}
+/* UUS LÕPP */
+
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, 220px);
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .product-image-wrapper {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .product-card {
+    padding: 12px;
+  }
+
+  .product-image-wrapper {
+    height: 150px;
+  }
+
+  .add-to-cart-btn {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+}
 </style>
 
 <template>
   <main class="page">
     <section class="products-grid">
 
-      <router-link
+      <article
           v-for="product in products"
           :key="product.id"
-          :to="{ name: 'productDetail', params: { id: product.id } }"
           class="product-card"
       >
 
@@ -170,48 +236,26 @@ onMounted(async () => {
           </div>
         </div>
 
-        <!-- ostukorvi nupp -->
-        <button
-            class="add-to-cart-btn"
-            @click="addToCart(product)"
-        >
-          Lisa ostukorvi
-        </button>
-      </router-link>
-<!--      </article>-->
+        <!-- Nupud -->
+        <div class="card-actions">
+          <!-- Lisa ostukorvi -->
+          <button
+              class="add-to-cart-btn"
+              @click="addToCart(product)"
+          >
+            Lisa ostukorvi
+          </button>
+
+          <!-- Vaata detaile -->
+          <router-link
+              :to="{ name: 'productDetail', params: { id: product.id } }"
+              class="details-link"
+          >
+            Vaata detaile
+          </router-link>
+        </div>
+      </article>
     </section>
   </main>
 </template>
 
-@media (max-width: 768px) {
-.products-grid {
-grid-template-columns: repeat(auto-fill, 220px);
-gap: 16px;
-padding: 16px;
-}
-
-.product-image-wrapper {
-height: 180px;
-}
-}
-
-@media (max-width: 480px) {
-.products-grid {
-grid-template-columns: 1fr;
-gap: 12px;
-padding: 12px;
-}
-
-.product-card {
-padding: 12px;
-}
-
-.product-image-wrapper {
-height: 150px;
-}
-
-.add-to-cart-btn {
-padding: 10px;
-font-size: 0.9rem;
-}
-}
