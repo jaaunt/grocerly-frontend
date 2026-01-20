@@ -49,9 +49,6 @@ const closeCheckout = () => {
 
       <nav class="nav-links">
         <router-link to="/">Avaleht</router-link>
-        <router-link to="/all-products">Tooted</router-link>
-        <router-link to="/about">Meist</router-link>
-        <router-link to="/all-users">Kasutajad</router-link>
       </nav>
 
       <div class="header-actions">
