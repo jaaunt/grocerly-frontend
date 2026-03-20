@@ -16,8 +16,8 @@ The project was originally developed on GitLab and was previously deployed on a 
 ## How to run locally
 
 Clone both repos and run the backend first, then the frontend.
--[Backend](https://github.com/jaaunt/grocerly-backend)
--[Frontend](https://github.com/jaaunt/grocerly-frontend)
+- [Backend](https://github.com/jaaunt/grocerly-backend)
+- [Frontend](https://github.com/jaaunt/grocerly-frontend)
 
 ### Backend
 
