@@ -9,7 +9,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
-
 const cartStore = useCartStore()
 const authStore = useAuthStore()
 
@@ -78,7 +77,6 @@ const submitOrder = async () => {
 }
 
 </script>
-
 <template>
   <Teleport to="body">
     <div v-if="show" class="checkout-overlay">
