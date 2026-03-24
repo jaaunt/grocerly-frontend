@@ -45,7 +45,8 @@ const closeModal = () => {
   selectedOrder.value = null
 }
 
-// Parse order items (kui on JSON formaat)
+  
+// Parse order items (kui on JSON formaat).
 const parseOrderItems = (orderItemsString) => {
   try {
     return JSON.parse(orderItemsString)
